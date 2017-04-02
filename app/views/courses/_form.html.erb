@@ -23,7 +23,12 @@
 
   <div class="field">
     <%= f.label :teacher_id %>
-    <%= f.select :teacher, options_for_select(Person.all.map{|s|[s.to_s, s.id]}) %>
+    <%= f.select :teacher, options_for_select(Person.where(:is_teacher=>"true").map{|s|[s.to_s, s.id]}) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :quota %>
+    <%= f.text_field :quota %>
   </div>
 
   <div class="actions">
