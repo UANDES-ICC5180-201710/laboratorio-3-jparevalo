@@ -3,14 +3,14 @@ class CoursesController < ApplicationController
 
   # GET /courses
   # GET /courses.json
-  def index
-    @courses = Course.all
-  end
-
-  # GET /courses/1
-  # GET /courses/1.json
-  def show
-  end
+   def index
+     @courses = Course.search(params[:search])
+   end
+   # GET /courses/1
+   # GET /courses/1.json
+   def show
+     @students = Course.get_students(params[:id])
+   end
 
   # GET /courses/new
   def new

@@ -6,4 +6,18 @@ class Course < ApplicationRecord
   def to_s
     return title
   end
+  def self.search(search)
+    if search
+      self.where("title like ?", "%#{search}%")
+    else
+      self.all
+    end
+end
+  def self.get_students(id)
+      students = ::Student.where("course_id == ?", id)
+      return students
+      end
+  def name
+      title
+  end
 end
