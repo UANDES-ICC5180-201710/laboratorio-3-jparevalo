@@ -27,12 +27,14 @@ class EnrollmentsController < ApplicationController
     @enrollment = Enrollment.new(enrollment_params)
 
     respond_to do |format|
-      if @enrollment.save
+      course = Course.find(enrollment_params[:course_id])
+      if @enrollment.save && course.enrollments.length < course.quota
         format.html { redirect_to @enrollment, notice: 'Enrollment was successfully created.' }
         format.json { render :show, status: :created, location: @enrollment }
       else
-        format.html { render :new }
-        format.json { render json: @enrollment.errors, status: :unprocessable_entity }
+          @enrollment.destroy
+          format.html { redirect_to enrollments_url, notice: 'Error: Course is full.' }
+          format.json { head :no_content }
       end
     end
   end
