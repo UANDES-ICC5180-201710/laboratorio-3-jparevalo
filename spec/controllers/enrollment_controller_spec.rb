@@ -2,36 +2,16 @@ require 'rails_helper'
 
 describe Enrollment, '.create', :type => "request=" do
 
+  let(:new_course) {Course.new :title => "New", :quota => 1, :code => "N"}
+  let(:new_student_1) {Person.new :is_teacher => false}
+  let(:new_student_2) {Person.new :is_teacher => false}
+  let(:enrollment1) {Enrollment.new :student => new_student_1, :course => new_course}
+  let(:enrollment2) {Enrollment.new :student => new_student_2, :course => new_course}
   it 'creates a new enrollment' do
-  # Setup
-    course = Course.new()
-    course.title = "Nuevo Curso"
-    course.quota = 1
-    course.code = "MMJR"
-    student = Person.new()
-    student2 = Person.new()
-    course.save()
+      new_course.enrollments.append(enrollment1)
+      new_course.enrollments.append(enrollment2)
 
+      expect(new_course.enrollments.length).to be <= new_course.quota
 
-
-  # Exercise
-      enrollment1 = Enrollment.new()
-      enrollment1.student = student
-      enrollment1.course = course
-      enrollment1.save()
-      course.enrollments.append(enrollment1)
-      enrollment2 = Enrollment.new()
-      enrollment2.student = student2
-      enrollment2.course = course
-      enrollment2.save()
-      course.enrollments.append(enrollment2)
-      course.save()
-
-
-  # Verify
-    expect(course.enrollments.length).to be <= course.quota
-
-  # Teardown is for now mostly handled by RSpec itself
   end
-
 end

@@ -1,25 +1,14 @@
 require 'rails_helper'
 
 describe Course, '.create', :type => "request=" do
+  let(:new_course) {Course.new :title => "New", :quota => 30, :code => "N"}
+  let(:new_teacher) {Person.new :is_teacher => false}
+  it 'creates a course with a designated teacher' do
 
-  it 'creates a course, with an associated teacher ' do
-  # Setup
-    course = Course.new()
-    course.title = "Nuevo Curso"
-    course.quota = 30
-    course.code = "MMJR"
-    student = Person.new()
-    student.is_teacher = false
-    student.save()
+    new_course.teacher = new_teacher
 
-  # Exercise
-    course.person_id = 1
-    course.save()
+    expect(new_course.teacher.is_teacher).to eq true
 
-  # Verify
-    expect(course.teacher.is_teacher).to eq true
-
-  # Teardown is for now mostly handled by RSpec itself
   end
 
 end
